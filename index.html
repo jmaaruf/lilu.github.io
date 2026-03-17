@@ -30,10 +30,19 @@
             overflow: hidden;
         }
 
-        section::before, section::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+        section::before,
+        section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
         section::after {
             background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-            opacity: 0.20; mix-blend-mode: overlay; z-index: 2;
+            opacity: 0.20;
+            mix-blend-mode: overlay;
+            z-index: 2;
         }
 
         nav {
@@ -47,10 +56,17 @@
         }
 
         .particle {
-            position: absolute; pointer-events: none; z-index: 10;
-            animation: float 14s linear infinite; will-change: transform;
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+            animation: float 14s linear infinite;
+            will-change: transform;
         }
-        @keyframes float { 0% { transform: translateY(120vh) rotate(0deg); } 100% { transform: translateY(-160vh) rotate(1080deg); } }
+
+        @keyframes float {
+            0%   { transform: translateY(120vh) rotate(0deg); }
+            100% { transform: translateY(-160vh) rotate(1080deg); }
+        }
 
         /* Background patterns */
         #sec1::before { background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5) 3px, transparent 3px), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.4) 4px, transparent 4px); background-size: 100px 100px; opacity: 0.35; }
@@ -65,18 +81,18 @@
         .align-center { text-align: center; }
         .title-spacing { letter-spacing: 0.08em; }
 
-        /* Music player styling */
+        /* Music player */
         #music-player {
-            position: fixed; bottom: 16px; right: 16px; z-index: 60;
-            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
-            border-radius: 9999px; padding: 8px 16px;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 60;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            padding: 8px 16px;
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        #youtube-audio-container {
-            position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;
-            pointer-events: none;
         }
     </style>
 </head>
@@ -104,10 +120,11 @@
         <span id="music-status" class="text-rose-50 text-sm font-light opacity-80">Tap to play</span>
     </div>
 
-    <!-- Hidden YouTube player container -->
-    <div id="youtube-audio-container">
-        <div id="youtube-player"></div>
-    </div>
+    <!-- Audio element -->
+    <audio id="bg-music" loop preload="none">
+        <source src="YOUR_MP3_DIRECT_LINK_HERE" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <div id="snap-container">
 
@@ -173,9 +190,7 @@
     <div id="particles" class="fixed inset-0 pointer-events-none"></div>
 
     <script>
-        // ────────────────────────────────────────────────
-        // Floating hearts + flowers
-        // ────────────────────────────────────────────────
+        // Floating particles (hearts & flowers)
         const icons = ['❤️', '❤️', '❤️', '🌸', '🌸', '🌹'];
 
         function createParticle() {
@@ -223,9 +238,7 @@
             }
         }
 
-        // ────────────────────────────────────────────────
         // Together Since counter
-        // ────────────────────────────────────────────────
         function updateTimeTogether() {
             const startDate = new Date('2025-11-23T00:00:00');
             const now = new Date();
@@ -246,43 +259,26 @@
         setInterval(updateTimeTogether, 1000 * 60 * 60);
         updateTimeTogether();
 
-        // ────────────────────────────────────────────────
-        // YouTube audio player
-        // ────────────────────────────────────────────────
-        <div id="music-player" class="fixed bottom-4 right-4 z-60 flex items-center gap-3 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 shadow-lg">
-    <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
-        ♪
-    </button>
-    <span id="music-status" class="text-rose-50 text-sm font-light">Tap to play</span>
-</div>
+        // Music controls
+        const music = document.getElementById('bg-music');
+        const toggleBtn = document.getElementById('music-toggle');
+        const status = document.getElementById('music-status');
+        let isPlaying = false;
 
-<audio id="bg-music" loop preload="none">
-    <source src="https://github.com/jmaaruf/lilu.github.io/blob/main/appl.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
+        toggleBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                toggleBtn.textContent = '♪';
+                status.textContent = 'Paused';
+            } else {
+                music.play().catch(() => console.log("Playback blocked – user interaction required"));
+                toggleBtn.textContent = '♫';
+                status.textContent = 'Playing';
+            }
+            isPlaying = !isPlaying;
+        });
 
-<script>
-    const music = document.getElementById('bg-music');
-    const toggleBtn = document.getElementById('music-toggle');
-    const status = document.getElementById('music-status');
-    let isPlaying = false;
-
-    toggleBtn.addEventListener('click', () => {
-        if (isPlaying) {
-            music.pause();
-            toggleBtn.textContent = '♪';
-            status.textContent = 'Paused';
-        } else {
-            music.play().catch(e => console.log("Autoplay blocked:", e));
-            toggleBtn.textContent = '♫';
-            status.textContent = 'Playing';
-        }
-        isPlaying = !isPlaying;
-    });
-
-        // ────────────────────────────────────────────────
-        // Other functions
-        // ────────────────────────────────────────────────
+        // Random love messages
         function showMoreLove() {
             const msgs = [
                 "You are my everything.",
@@ -292,6 +288,7 @@
             alert(msgs[Math.floor(Math.random() * msgs.length)]);
         }
 
+        // Smooth scroll for nav links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -300,6 +297,7 @@
             });
         });
 
+        // Initialize particles & section observer
         particleInterval = setInterval(createParticle, 350);
         window.addEventListener('scroll', updateActiveSection);
         updateActiveSection();
