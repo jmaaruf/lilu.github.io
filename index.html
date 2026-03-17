@@ -249,55 +249,36 @@
         // ────────────────────────────────────────────────
         // YouTube audio player
         // ────────────────────────────────────────────────
-        let player;
-        let isPlaying = false;
+        <div id="music-player" class="fixed bottom-4 right-4 z-60 flex items-center gap-3 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 shadow-lg">
+    <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
+        ♪
+    </button>
+    <span id="music-status" class="text-rose-50 text-sm font-light">Tap to play</span>
+</div>
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '1',
-                width: '1',
-                videoId: '9mXbDvvVKmU',           // ← Replace with your video ID
-                playerVars: {
-                    'autoplay': 0,
-                    'loop': 1,
-                    'playlist': 'VIDEO_ID_HERE',    // same ID for looping
-                    'controls': 0,
-                    'showinfo': 0,
-                    'rel': 0,
-                    'modestbranding': 1,
-                    'fs': 0
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
+<audio id="bg-music" loop preload="none">
+    <source src="https://github.com/jmaaruf/lilu.github.io/blob/main/appl.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle');
+    const status = document.getElementById('music-status');
+    let isPlaying = false;
+
+    toggleBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            music.pause();
+            toggleBtn.textContent = '♪';
+            status.textContent = 'Paused';
+        } else {
+            music.play().catch(e => console.log("Autoplay blocked:", e));
+            toggleBtn.textContent = '♫';
+            status.textContent = 'Playing';
         }
-
-        function onPlayerReady(event) {
-            // Ready – waiting for user gesture
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.PLAYING) {
-                isPlaying = true;
-                document.getElementById('music-toggle').textContent = '♫';
-                document.getElementById('music-status').textContent = 'Playing';
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                isPlaying = false;
-                document.getElementById('music-toggle').textContent = '♪';
-                document.getElementById('music-status').textContent = 'Paused';
-            }
-        }
-
-        document.getElementById('music-toggle').addEventListener('click', function() {
-            if (!player) return;
-            if (isPlaying) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
-            }
-        });
+        isPlaying = !isPlaying;
+    });
 
         // ────────────────────────────────────────────────
         // Other functions
