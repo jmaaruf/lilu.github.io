@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Libre Baskerville', serif; margin: 0; overflow-x: hidden; }
+        .title { font-family: 'Cinzel', serif; font-weight: 700; }
+
+        #snap-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        section {
+            height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.8s ease;
+            overflow: hidden;
+        }
+
+        section::before, section::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+        section::after {
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+            opacity: 0.20; mix-blend-mode: overlay; z-index: 2;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            transition: all 0.4s ease;
+        }
+
+        .particle {
+            position: absolute; pointer-events: none; z-index: 10;
+            animation: float 14s linear infinite; will-change: transform;
+        }
+        @keyframes float { 0% { transform: translateY(120vh) rotate(0deg); } 100% { transform: translateY(-160vh) rotate(1080deg); } }
+
+        /* Background patterns */
+        #sec1::before { background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5) 3px, transparent 3px), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.4) 4px, transparent 4px); background-size: 100px 100px; opacity: 0.35; }
+        #sec2::before { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.3) 0, rgba(255,255,255,0.3) 10px, transparent 10px, transparent 20px), repeating-linear-gradient(-45deg, rgba(255,255,255,0.25) 0, rgba(255,255,255,0.25) 10px, transparent 10px, transparent 20px); background-size: 80px 80px; opacity: 0.40; }
+        #sec3::before { background-image: repeating-linear-gradient(135deg, transparent 0, transparent 20px, rgba(255,255,255,0.18) 20px, rgba(255,255,255,0.18) 40px); background-size: 50px 50px; opacity: 0.22; }
+        #sec4::before { background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 2px, transparent 2px); background-size: 70px 70px; opacity: 0.45; }
+        #sec5::before { background-image: linear-gradient(to right, rgba(255,255,255,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.35) 1px, transparent 1px); background-size: 90px 90px; opacity: 0.32; }
+        #sec6::before { background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.45) 4px, transparent 4px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.35) 5px, transparent 5px); background-size: 120px 120px; opacity: 0.30; }
+
+        .align-left   { text-align: left; }
+        .align-right  { text-align: right; }
+        .align-center { text-align: center; }
+        .title-spacing { letter-spacing: 0.08em; }
+
+        /* Music player styling */
+        #music-player {
+            position: fixed; bottom: 16px; right: 16px; z-index: 60;
+            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
+            border-radius: 9999px; padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        #youtube-audio-container {
+            position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="nav" class="py-3 md:py-4">
+        <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
+            <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">My Love</h2>
+            <div class="flex gap-4 md:gap-7 text-sm md:text-base font-medium">
+                <a href="#sec1" class="nav-link transition">Journey</a>
+                <a href="#sec2" class="nav-link transition">Reasons</a>
+                <a href="#sec3" class="nav-link transition">Memories</a>
+                <a href="#sec4" class="nav-link transition">Promises</a>
+                <a href="#sec5" class="nav-link transition">Together Since</a>
+                <a href="#sec6" class="nav-link transition">Forever</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating music control -->
+    <div id="music-player" class="flex items-center gap-3">
+        <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
+            ♪
+        </button>
+        <span id="music-status" class="text-rose-50 text-sm font-light opacity-80">Tap to play</span>
+    </div>
+
+    <!-- Hidden YouTube player container -->
+    <div id="youtube-audio-container">
+        <div id="youtube-player"></div>
+    </div>
+
+    <div id="snap-container">
+
+        <section id="sec1" class="bg-gradient-to-br from-rose-400 via-pink-500 to-purple-500">
+            <div class="max-w-xl text-center px-6 relative z-20 align-center">
+                <h1 class="title text-5xl md:text-6xl text-rose-50 mb-6 drop-shadow-lg">Our Beautiful Journey</h1>
+                <p class="text-xl md:text-2xl text-pink-100 leading-relaxed drop-shadow-md">This is where our story began...</p>
+                <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
+            </div>
+        </section>
+
+        <section id="sec2" class="bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500">
+            <div class="max-w-xl px-6 relative z-20 align-left">
+                <h1 class="title text-5xl md:text-6xl text-amber-50 mb-6 drop-shadow-lg">The Many Reasons I Adore You</h1>
+                <p class="text-xl md:text-2xl text-orange-100 leading-relaxed drop-shadow-md">Every single thing about you...</p>
+                <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
+            </div>
+        </section>
+
+        <section id="sec3" class="bg-gradient-to-br from-purple-500 via-violet-500 to-fuchsia-500">
+            <div class="max-w-xl px-6 relative z-20 align-right">
+                <h1 class="title text-5xl md:text-6xl text-purple-50 mb-6 drop-shadow-lg">Cherished Memories</h1>
+                <p class="text-xl md:text-2xl text-fuchsia-100 leading-relaxed drop-shadow-md">Our special moments together...</p>
+                <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
+            </div>
+        </section>
+
+        <section id="sec4" class="bg-gradient-to-br from-teal-400 via-cyan-500 to-emerald-500">
+            <div class="max-w-xl text-center px-6 relative z-20 align-center title-spacing">
+                <h1 class="title text-5xl md:text-6xl text-teal-50 mb-6 drop-shadow-lg">My Promises to You</h1>
+                <p class="text-xl md:text-2xl text-cyan-100 leading-relaxed drop-shadow-md">I promise to always...</p>
+                <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
+            </div>
+        </section>
+
+        <section id="sec5" class="bg-gradient-to-br from-rose-300 via-pink-400 to-purple-400">
+            <div class="max-w-xl text-center px-6 relative z-20 align-center">
+                <h1 class="title text-5xl md:text-6xl text-rose-50 mb-6 drop-shadow-lg">Together Since</h1>
+                <div class="text-3xl md:text-4xl text-pink-100 font-light mt-4 drop-shadow-md">
+                    November 23, 2025
+                </div>
+                <div id="time-together" class="mt-12 text-4xl md:text-6xl text-white font-light drop-shadow-lg">
+                    Loading...
+                </div>
+                <p class="text-xl md:text-2xl text-pink-100 mt-8 leading-relaxed drop-shadow-md">
+                    Every second with you has been the greatest gift of my life.
+                </p>
+            </div>
+        </section>
+
+        <section id="sec6" class="bg-gradient-to-br from-rose-500 via-red-500 to-pink-600">
+            <div class="max-w-xl text-center px-6 relative z-20 align-center">
+                <h1 class="title text-5xl md:text-6xl text-rose-50 mb-6 drop-shadow-lg">Together Forever</h1>
+                <p class="text-xl md:text-2xl text-pink-100 leading-relaxed drop-shadow-md">My love for you will never end...</p>
+                <button onclick="showMoreLove()" class="mt-10 px-10 py-4 bg-white/20 hover:bg-white/30 text-rose-50 text-lg rounded-2xl transition backdrop-blur-sm border border-white/30">
+                    Feel My Love
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="particles" class="fixed inset-0 pointer-events-none"></div>
+
+    <script>
+        // ────────────────────────────────────────────────
+        // Floating hearts + flowers
+        // ────────────────────────────────────────────────
+        const icons = ['❤️', '❤️', '❤️', '🌸', '🌸', '🌹'];
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = icons[Math.floor(Math.random() * icons.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.fontSize = (16 + Math.random() * 36) + 'px';
+            particle.style.animationDuration = (10 + Math.random() * 12) + 's';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.opacity = 0.7 + Math.random() * 0.3;
+            document.getElementById('particles').appendChild(particle);
+            setTimeout(() => particle.remove(), 25000);
+        }
+
+        let particleInterval;
+
+        const sectionConfigs = {
+            'sec1': { density: 320, navText: '#2d1b12' },
+            'sec2': { density: 380, navText: '#3b2a1e' },
+            'sec3': { density: 450, navText: '#2a1a3b' },
+            'sec4': { density: 300, navText: '#1e3b35' },
+            'sec5': { density: 340, navText: '#3b1a2a' },
+            'sec6': { density: 280, navText: '#3b1a2a' }
+        };
+
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('section');
+            let activeId = null;
+
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 20 && rect.bottom >= window.innerHeight - 20) {
+                    activeId = sec.id;
+                }
+            });
+
+            if (activeId && sectionConfigs[activeId]) {
+                const cfg = sectionConfigs[activeId];
+                document.querySelectorAll('nav a, nav h2').forEach(el => {
+                    el.style.color = cfg.navText;
+                });
+                clearInterval(particleInterval);
+                particleInterval = setInterval(createParticle, cfg.density);
+            }
+        }
+
+        // ────────────────────────────────────────────────
+        // Together Since counter
+        // ────────────────────────────────────────────────
+        function updateTimeTogether() {
+            const startDate = new Date('2025-11-23T00:00:00');
+            const now = new Date();
+            const diffMs = now - startDate;
+
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = days % 30;
+
+            let text = '';
+            if (years > 0) text += `${years} year${years > 1 ? 's' : ''} `;
+            if (months > 0) text += `${months} month${months > 1 ? 's' : ''} `;
+            text += `${remainingDays} day${remainingDays !== 1 ? 's' : ''}`;
+
+            document.getElementById('time-together').textContent = text.trim() || 'Just started today';
+        }
+        setInterval(updateTimeTogether, 1000 * 60 * 60);
+        updateTimeTogether();
+
+        // ────────────────────────────────────────────────
+        // YouTube audio player
+        // ────────────────────────────────────────────────
+        let player;
+        let isPlaying = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '1',
+                width: '1',
+                videoId: '9mXbDvvVKmU',           // ← Replace with your video ID
+                playerVars: {
+                    'autoplay': 0,
+                    'loop': 1,
+                    'playlist': 'VIDEO_ID_HERE',    // same ID for looping
+                    'controls': 0,
+                    'showinfo': 0,
+                    'rel': 0,
+                    'modestbranding': 1,
+                    'fs': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Ready – waiting for user gesture
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                document.getElementById('music-toggle').textContent = '♫';
+                document.getElementById('music-status').textContent = 'Playing';
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                isPlaying = false;
+                document.getElementById('music-toggle').textContent = '♪';
+                document.getElementById('music-status').textContent = 'Paused';
+            }
+        }
+
+        document.getElementById('music-toggle').addEventListener('click', function() {
+            if (!player) return;
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        });
+
+        // ────────────────────────────────────────────────
+        // Other functions
+        // ────────────────────────────────────────────────
+        function showMoreLove() {
+            const msgs = [
+                "You are my everything.",
+                "I choose you every single day.",
+                "Forever yours, always."
+            ];
+            alert(msgs[Math.floor(Math.random() * msgs.length)]);
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        particleInterval = setInterval(createParticle, 350);
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection();
+
+        tailwind.config = { content: [], theme: { extend: {} } };
+    </script>
+</body>
+</html>
