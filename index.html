@@ -30,7 +30,8 @@
             overflow: hidden;
         }
 
-        section::before, section::after {
+        section::before,
+        section::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -63,6 +64,53 @@
             100% { transform: translateY(-160vh) rotate(1080deg); }
         }
 
+        /* Background patterns – restored and slightly more visible */
+        #sec1::before {
+            background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55) 3px, transparent 3px),
+                              radial-gradient(circle at 80% 70%, rgba(255,255,255,0.45) 4px, transparent 4px);
+            background-size: 100px 100px;
+            opacity: 0.38;
+            z-index: 1;
+        }
+
+        #sec2::before {
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.35) 10px, transparent 10px, transparent 20px),
+                              repeating-linear-gradient(-45deg, rgba(255,255,255,0.28) 0, rgba(255,255,255,0.28) 10px, transparent 10px, transparent 20px);
+            background-size: 80px 80px;
+            opacity: 0.42;
+            z-index: 1;
+        }
+
+        #sec3::before {
+            background-image: repeating-linear-gradient(135deg, transparent 0, transparent 20px, rgba(255,255,255,0.22) 20px, rgba(255,255,255,0.22) 40px);
+            background-size: 50px 50px;
+            opacity: 0.28;
+            z-index: 1;
+        }
+
+        #sec4::before {
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.45) 2px, transparent 2px);
+            background-size: 70px 70px;
+            opacity: 0.48;
+            z-index: 1;
+        }
+
+        #sec5::before {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.38) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.38) 1px, transparent 1px);
+            background-size: 90px 90px;
+            opacity: 0.35;
+            z-index: 1;
+        }
+
+        #sec6::before {
+            background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.50) 4px, transparent 4px),
+                              radial-gradient(circle at 70% 60%, rgba(255,255,255,0.40) 5px, transparent 5px);
+            background-size: 120px 120px;
+            opacity: 0.32;
+            z-index: 1;
+        }
+
         /* Mobile menu */
         #mobile-menu {
             display: none;
@@ -89,37 +137,22 @@
             background: rgba(0,0,0,0.05);
         }
 
-        /* Music player */
+        /* Music player & prompt styling (unchanged) */
         #music-player {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 60;
-            background: rgba(255,255,255,0.25);
-            backdrop-filter: blur(10px);
-            border-radius: 9999px;
-            padding: 8px 16px;
+            position: fixed; bottom: 16px; right: 16px; z-index: 60;
+            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
+            border-radius: 9999px; padding: 8px 16px;
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
-        /* Music prompt overlay */
         #music-prompt {
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
             transition: opacity 0.6s ease;
         }
-
-        #music-prompt.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #music-prompt.hidden { opacity: 0; pointer-events: none; }
 
         .align-left   { text-align: left; }
         .align-right  { text-align: right; }
@@ -149,7 +182,7 @@
         <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
             <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">My Love</h2>
 
-            <!-- Desktop navigation -->
+            <!-- Desktop nav -->
             <div class="hidden md:flex gap-6 text-base font-medium">
                 <a href="#sec1" class="nav-link transition">Journey</a>
                 <a href="#sec2" class="nav-link transition">Reasons</a>
@@ -159,24 +192,24 @@
                 <a href="#sec6" class="nav-link transition">Forever</a>
             </div>
 
-            <!-- Mobile hamburger button -->
+            <!-- Mobile hamburger -->
             <button id="hamburger" class="md:hidden text-rose-600 text-3xl focus:outline-none">
                 ☰
             </button>
         </div>
 
-        <!-- Mobile dropdown menu -->
+        <!-- Mobile dropdown -->
         <div id="mobile-menu" class="md:hidden">
-            <a href="#sec1" class="nav-link block py-2 px-4">Journey</a>
-            <a href="#sec2" class="nav-link block py-2 px-4">Reasons</a>
-            <a href="#sec3" class="nav-link block py-2 px-4">Memories</a>
-            <a href="#sec4" class="nav-link block py-2 px-4">Promises</a>
-            <a href="#sec5" class="nav-link block py-2 px-4">Together Since</a>
-            <a href="#sec6" class="nav-link block py-2 px-4">Forever</a>
+            <a href="#sec1" class="block py-2 px-4">Journey</a>
+            <a href="#sec2" class="block py-2 px-4">Reasons</a>
+            <a href="#sec3" class="block py-2 px-4">Memories</a>
+            <a href="#sec4" class="block py-2 px-4">Promises</a>
+            <a href="#sec5" class="block py-2 px-4">Together Since</a>
+            <a href="#sec6" class="block py-2 px-4">Forever</a>
         </div>
     </nav>
 
-    <!-- Floating music player -->
+    <!-- Music player -->
     <div id="music-player" class="flex items-center gap-3">
         <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
             ♪
@@ -184,9 +217,9 @@
         <span id="music-status" class="text-rose-50 text-sm font-light opacity-80">Tap to play</span>
     </div>
 
-    <!-- Audio element -->
+    <!-- Audio -->
     <audio id="bg-music" loop preload="none">
-        <source src="https://raw.githubusercontent.com/jmaaruf/lilu.github.io/main/appl.mp3" type="audio/mpeg">
+        <source src="YOUR_MP3_DIRECT_LINK_HERE" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -254,7 +287,7 @@
     <div id="particles" class="fixed inset-0 pointer-events-none"></div>
 
     <script>
-        // Floating particles (hearts & flowers)
+        // Floating particles
         const icons = ['❤️', '❤️', '❤️', '🌸', '🌸', '🌹'];
 
         function createParticle() {
@@ -335,7 +368,7 @@
                 toggleBtn.textContent = '♪';
                 status.textContent = 'Paused';
             } else {
-                music.play().catch(() => console.log("Playback blocked – user interaction required"));
+                music.play().catch(() => {});
                 toggleBtn.textContent = '♫';
                 status.textContent = 'Playing';
             }
@@ -365,7 +398,7 @@
             localStorage.setItem('musicPromptShown', 'true');
         });
 
-        // Mobile hamburger menu toggle
+        // Mobile hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -373,14 +406,13 @@
             mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
         });
 
-        // Close mobile menu after link click
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.style.display = 'none';
             });
         });
 
-        // Random love messages
+        // Other functionality
         function showMoreLove() {
             const msgs = [
                 "You are my everything.",
@@ -390,7 +422,6 @@
             alert(msgs[Math.floor(Math.random() * msgs.length)]);
         }
 
-        // Smooth scroll for navigation links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -399,7 +430,6 @@
             });
         });
 
-        // Initialize particles & section observer
         particleInterval = setInterval(createParticle, 350);
         window.addEventListener('scroll', updateActiveSection);
         updateActiveSection();
