@@ -26,13 +26,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.8s ease;
             overflow: hidden;
         }
 
-        section::before, section::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+        section::before, section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
         section::after {
             background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-            opacity: 0.20; mix-blend-mode: overlay; z-index: 2;
+            opacity: 0.20;
+            mix-blend-mode: overlay;
+            z-index: 2;
         }
 
         nav {
@@ -48,7 +57,11 @@
             position: absolute; pointer-events: none; z-index: 10;
             animation: float 14s linear infinite;
         }
-        @keyframes float { 0% { transform: translateY(120vh) rotate(0deg); } 100% { transform: translateY(-160vh) rotate(1080deg); } }
+
+        @keyframes float {
+            0%   { transform: translateY(120vh) rotate(0deg); }
+            100% { transform: translateY(-160vh) rotate(1080deg); }
+        }
 
         /* Mobile menu */
         #mobile-menu {
@@ -63,6 +76,7 @@
             padding: 16px;
             min-width: 180px;
         }
+
         #mobile-menu a {
             display: block;
             padding: 10px 16px;
@@ -70,33 +84,53 @@
             text-decoration: none;
             border-radius: 8px;
         }
+
         #mobile-menu a:hover {
             background: rgba(0,0,0,0.05);
         }
 
         /* Music player */
         #music-player {
-            position: fixed; bottom: 16px; right: 16px; z-index: 60;
-            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
-            border-radius: 9999px; padding: 8px 16px;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 60;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            padding: 8px 16px;
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
         /* Music prompt overlay */
         #music-prompt {
-            position: fixed; inset: 0; z-index: 100;
-            background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.6s ease;
         }
-        #music-prompt.hidden { opacity: 0; pointer-events: none; }
+
+        #music-prompt.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .align-left   { text-align: left; }
+        .align-right  { text-align: right; }
+        .align-center { text-align: center; }
+        .title-spacing { letter-spacing: 0.08em; }
     </style>
 </head>
 <body>
 
-    <!-- Music prompt overlay -->
-    <div id="music-prompt" class="hidden flex-col text-center p-6 max-w-xs mx-auto">
+    <!-- Music prompt overlay (shows once) -->
+    <div id="music-prompt" class="flex flex-col text-center p-6 max-w-xs mx-auto">
         <h3 class="text-2xl text-white font-light mb-6 drop-shadow-lg">Before you begin...</h3>
         <p class="text-lg text-rose-100 mb-8 leading-relaxed">
             Would you like to listen to some soft music while reading?
@@ -115,7 +149,7 @@
         <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
             <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">My Love</h2>
 
-            <!-- Desktop nav -->
+            <!-- Desktop navigation -->
             <div class="hidden md:flex gap-6 text-base font-medium">
                 <a href="#sec1" class="nav-link transition">Journey</a>
                 <a href="#sec2" class="nav-link transition">Reasons</a>
@@ -125,7 +159,7 @@
                 <a href="#sec6" class="nav-link transition">Forever</a>
             </div>
 
-            <!-- Mobile hamburger -->
+            <!-- Mobile hamburger button -->
             <button id="hamburger" class="md:hidden text-rose-600 text-3xl focus:outline-none">
                 ☰
             </button>
@@ -133,115 +167,16 @@
 
         <!-- Mobile dropdown menu -->
         <div id="mobile-menu" class="md:hidden">
-            <a href="#sec1" class="nav-link">Journey</a>
-            <a href="#sec2" class="nav-link">Reasons</a>
-            <a href="#sec3" class="nav-link">Memories</a>
-            <a href="#sec4" class="nav-link">Promises</a>
-            <a href="#sec5" class="nav-link">Together Since</a>
-            <a href="#sec6" class="nav-link">Forever</a>
+            <a href="#sec1" class="nav-link block py-2 px-4">Journey</a>
+            <a href="#sec2" class="nav-link block py-2 px-4">Reasons</a>
+            <a href="#sec3" class="nav-link block py-2 px-4">Memories</a>
+            <a href="#sec4" class="nav-link block py-2 px-4">Promises</a>
+            <a href="#sec5" class="nav-link block py-2 px-4">Together Since</a>
+            <a href="#sec6" class="nav-link block py-2 px-4">Forever</a>
         </div>
     </nav>
 
-    <!-- Floating music control -->
-    <div id="music-player" class="flex items-center gap-3">
-        <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
-            ♪
-        </button>
-        <span id="music-status" class="text-rose-50 text-sm font-light opacity-80">Tap to play</span>
-    </div>
-
-    <!-- Audio element -->
-    <audio id="bg-music" loop preload="none">
-        <source src="YOUR_MP3_DIRECT_LINK_HERE" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <div id="snap-container">
-        <!-- Your six sections go here – unchanged from previous version -->
-        <!-- Paste sec1 through sec6 content as before -->
-    </div>
-
-    <div id="particles" class="fixed inset-0 pointer-events-none"></div>
-
-    <script>
-        // ────────────────────────────────────────────────
-        // Music controls
-        // ────────────────────────────────────────────────
-        const music = document.getElementById('bg-music');
-        const toggleBtn = document.getElementById('music-toggle');
-        const status = document.getElementById('music-status');
-        let isPlaying = false;
-
-        toggleBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                music.pause();
-                toggleBtn.textContent = '♪';
-                status.textContent = 'Paused';
-            } else {
-                music.play().catch(() => {});
-                toggleBtn.textContent = '♫';
-                status.textContent = 'Playing';
-            }
-            isPlaying = !isPlaying;
-        });
-
-        // ────────────────────────────────────────────────
-        // Music prompt (shows only once)
-        // ────────────────────────────────────────────────
-        const prompt = document.getElementById('music-prompt');
-        const startMusicBtn = document.getElementById('start-music-btn');
-        const skipMusicBtn = document.getElementById('skip-music-btn');
-
-        if (!localStorage.getItem('musicPromptShown')) {
-            prompt.classList.remove('hidden');
-        }
-
-        startMusicBtn.addEventListener('click', () => {
-            music.play().catch(() => {});
-            isPlaying = true;
-            toggleBtn.textContent = '♫';
-            status.textContent = 'Playing';
-            prompt.classList.add('hidden');
-            localStorage.setItem('musicPromptShown', 'true');
-        });
-
-        skipMusicBtn.addEventListener('click', () => {
-            prompt.classList.add('hidden');
-            localStorage.setItem('musicPromptShown', 'true');
-        });
-
-        // ────────────────────────────────────────────────
-        // Mobile hamburger menu toggle
-        // ────────────────────────────────────────────────
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        hamburger.addEventListener('click', () => {
-            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Close menu when clicking a link
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.style.display = 'none';
-            });
-        });
-
-    <nav id="nav" class="py-3 md:py-4">
-        <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
-            <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">My Love</h2>
-            <div class="flex gap-4 md:gap-7 text-sm md:text-base font-medium">
-                <a href="#sec1" class="nav-link transition">Journey</a>
-                <a href="#sec2" class="nav-link transition">Reasons</a>
-                <a href="#sec3" class="nav-link transition">Memories</a>
-                <a href="#sec4" class="nav-link transition">Promises</a>
-                <a href="#sec5" class="nav-link transition">Together Since</a>
-                <a href="#sec6" class="nav-link transition">Forever</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Floating music control -->
+    <!-- Floating music player -->
     <div id="music-player" class="flex items-center gap-3">
         <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
             ♪
@@ -407,6 +342,44 @@
             isPlaying = !isPlaying;
         });
 
+        // Music prompt (shows only once)
+        const prompt = document.getElementById('music-prompt');
+        const startMusicBtn = document.getElementById('start-music-btn');
+        const skipMusicBtn = document.getElementById('skip-music-btn');
+
+        if (!localStorage.getItem('musicPromptShown')) {
+            prompt.classList.remove('hidden');
+        }
+
+        startMusicBtn.addEventListener('click', () => {
+            music.play().catch(() => {});
+            isPlaying = true;
+            toggleBtn.textContent = '♫';
+            status.textContent = 'Playing';
+            prompt.classList.add('hidden');
+            localStorage.setItem('musicPromptShown', 'true');
+        });
+
+        skipMusicBtn.addEventListener('click', () => {
+            prompt.classList.add('hidden');
+            localStorage.setItem('musicPromptShown', 'true');
+        });
+
+        // Mobile hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close mobile menu after link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.style.display = 'none';
+            });
+        });
+
         // Random love messages
         function showMoreLove() {
             const msgs = [
@@ -417,7 +390,7 @@
             alert(msgs[Math.floor(Math.random() * msgs.length)]);
         }
 
-        // Smooth scroll for nav links
+        // Smooth scroll for navigation links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
