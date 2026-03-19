@@ -12,26 +12,24 @@
         .title { font-family: 'Cinzel', serif; font-weight: 700; }
 
         #snap-container {
-            height: 100vh;
+            min-height: 100vh;
             overflow-y: scroll;
-            scroll-snap-type: y mandatory;
+            scroll-snap-type: y proximity; /* proximity instead of mandatory → allows scrolling through long content */
             -webkit-overflow-scrolling: touch;
         }
 
         section {
-            height: 100vh;
+            min-height: 100vh; /* at least full viewport, but can grow */
             scroll-snap-align: start;
-            scroll-snap-stop: always;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.8s ease;
             overflow: hidden;
+            padding: 5rem 1rem 4rem; /* generous vertical padding */
         }
 
-        section::before,
-        section::after {
+        section::before, section::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -40,9 +38,7 @@
 
         section::after {
             background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-            opacity: 0.20;
-            mix-blend-mode: overlay;
-            z-index: 2;
+            opacity: 0.20; mix-blend-mode: overlay; z-index: 2;
         }
 
         nav {
@@ -60,56 +56,17 @@
         }
 
         @keyframes float {
-            0%   { transform: translateY(120vh) rotate(0deg); }
+            0% { transform: translateY(120vh) rotate(0deg); }
             100% { transform: translateY(-160vh) rotate(1080deg); }
         }
 
-        /* Background patterns – restored and slightly more visible */
-        #sec1::before {
-            background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55) 3px, transparent 3px),
-                              radial-gradient(circle at 80% 70%, rgba(255,255,255,0.45) 4px, transparent 4px);
-            background-size: 100px 100px;
-            opacity: 0.38;
-            z-index: 1;
-        }
-
-        #sec2::before {
-            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.35) 10px, transparent 10px, transparent 20px),
-                              repeating-linear-gradient(-45deg, rgba(255,255,255,0.28) 0, rgba(255,255,255,0.28) 10px, transparent 10px, transparent 20px);
-            background-size: 80px 80px;
-            opacity: 0.42;
-            z-index: 1;
-        }
-
-        #sec3::before {
-            background-image: repeating-linear-gradient(135deg, transparent 0, transparent 20px, rgba(255,255,255,0.22) 20px, rgba(255,255,255,0.22) 40px);
-            background-size: 50px 50px;
-            opacity: 0.28;
-            z-index: 1;
-        }
-
-        #sec4::before {
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.45) 2px, transparent 2px);
-            background-size: 70px 70px;
-            opacity: 0.48;
-            z-index: 1;
-        }
-
-        #sec5::before {
-            background-image: linear-gradient(to right, rgba(255,255,255,0.38) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255,255,255,0.38) 1px, transparent 1px);
-            background-size: 90px 90px;
-            opacity: 0.35;
-            z-index: 1;
-        }
-
-        #sec6::before {
-            background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.50) 4px, transparent 4px),
-                              radial-gradient(circle at 70% 60%, rgba(255,255,255,0.40) 5px, transparent 5px);
-            background-size: 120px 120px;
-            opacity: 0.32;
-            z-index: 1;
-        }
+        /* Background patterns (kept as-is) */
+        #sec1::before { background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55) 3px, transparent 3px), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.45) 4px, transparent 4px); background-size: 100px 100px; opacity: 0.38; z-index: 1; }
+        #sec2::before { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.35) 10px, transparent 10px, transparent 20px), repeating-linear-gradient(-45deg, rgba(255,255,255,0.28) 0, rgba(255,255,255,0.28) 10px, transparent 10px, transparent 20px); background-size: 80px 80px; opacity: 0.42; z-index: 1; }
+        #sec3::before { background-image: repeating-linear-gradient(135deg, transparent 0, transparent 20px, rgba(255,255,255,0.22) 20px, rgba(255,255,255,0.22) 40px); background-size: 50px 50px; opacity: 0.28; z-index: 1; }
+        #sec4::before { background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.45) 2px, transparent 2px); background-size: 70px 70px; opacity: 0.48; z-index: 1; }
+        #sec5::before { background-image: linear-gradient(to right, rgba(255,255,255,0.38) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.38) 1px, transparent 1px); background-size: 90px 90px; opacity: 0.35; z-index: 1; }
+        #sec6::before { background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.50) 4px, transparent 4px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.40) 5px, transparent 5px); background-size: 120px 120px; opacity: 0.32; z-index: 1; }
 
         /* Mobile menu */
         #mobile-menu {
@@ -133,11 +90,9 @@
             border-radius: 8px;
         }
 
-        #mobile-menu a:hover {
-            background: rgba(0,0,0,0.05);
-        }
+        #mobile-menu a:hover { background: rgba(0,0,0,0.05); }
 
-        /* Music player & prompt styling (unchanged) */
+        /* Music player */
         #music-player {
             position: fixed; bottom: 16px; right: 16px; z-index: 60;
             background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
@@ -146,12 +101,14 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
+        /* Music prompt */
         #music-prompt {
             position: fixed; inset: 0; z-index: 100;
             background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
             display: flex; align-items: center; justify-content: center;
             transition: opacity 0.6s ease;
         }
+
         #music-prompt.hidden { opacity: 0; pointer-events: none; }
 
         .align-left   { text-align: left; }
@@ -162,7 +119,7 @@
 </head>
 <body>
 
-    <!-- Music prompt overlay (shows once) -->
+    <!-- Music prompt overlay -->
     <div id="music-prompt" class="flex flex-col text-center p-6 max-w-xs mx-auto">
         <h3 class="text-2xl text-white font-light mb-6 drop-shadow-lg">Before you begin...</h3>
         <p class="text-lg text-rose-100 mb-8 leading-relaxed">
@@ -181,7 +138,6 @@
     <nav class="py-3 md:py-4">
         <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
             <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">Lilu My Love</h2>
-
             <!-- Desktop nav -->
             <div class="hidden md:flex gap-6 text-base font-medium">
                 <a href="#sec1" class="nav-link transition">Journey</a>
@@ -191,13 +147,11 @@
                 <a href="#sec5" class="nav-link transition">Together Since</a>
                 <a href="#sec6" class="nav-link transition">Forever</a>
             </div>
-
             <!-- Mobile hamburger -->
             <button id="hamburger" class="md:hidden text-rose-600 text-3xl focus:outline-none">
                 ☰
             </button>
         </div>
-
         <!-- Mobile dropdown -->
         <div id="mobile-menu" class="md:hidden">
             <a href="#sec1" class="block py-2 px-4">Journey</a>
@@ -225,174 +179,173 @@
 
     <div id="snap-container">
 
+        <!-- Journey Section – now scrollable if text is long -->
         <section id="sec1" class="bg-gradient-to-br from-rose-400 via-pink-500 to-purple-500">
-            <div class="max-w-xl px-6 relative z-20 align-center text-center">
-    <h1 class="title text-5xl md:text-6xl text-rose-50 mb-8 drop-shadow-lg">
-        How You Stole My Heart
-    </h1>
+            <div class="max-w-3xl px-6 relative z-20 text-center py-16">
+                <h1 class="title text-5xl md:text-6xl text-rose-50 mb-10 drop-shadow-lg">
+                    How You Stole My Heart
+                </h1>
 
-    <div class="text-xl md:text-2xl text-pink-100 leading-relaxed drop-shadow-md space-y-6">
+                <div class="text-lg md:text-xl text-pink-100 leading-relaxed drop-shadow-md space-y-6 max-w-2xl mx-auto">
+                    <p>
+                        When we went out on our first date<br>
+                        I didn’t have many expectations.
+                    </p>
 
-        <p>
-            When we went out on our first date<br>
-            I didn’t have many expectations.
-        </p>
+                    <p>
+                        I had been on a few first dates before,<br>
+                        but you surprised me.
+                    </p>
 
-        <p>
-            I had been on a few first dates before,<br>
-            but you surprised me.
-        </p>
+                    <p>
+                        I saw something in you that I couldn’t even explain.<br>
+                        You were like gold in a world full of dirt,<br>
+                        and I immediately thought to myself:<br>
+                        <strong>“This girl is different… and I want her.”</strong>
+                    </p>
 
-        <p>
-            I saw something in you that I couldn’t even explain.<br>
-            You were like gold in a world full of dirt,<br>
-            and I immediately thought to myself:<br>
-            <strong>“This girl is different… and I want her.”</strong>
-        </p>
+                    <p>
+                        As we kept going on more dates,<br>
+                        the more I liked you.
+                    </p>
 
-        <p>
-            As we kept going on more dates,<br>
-            the more I liked you.
-        </p>
+                    <p>
+                        I was so happy the day we put a label on our relationship.<br>
+                        I was so proud to have a beautiful girl like you<br>
+                        to call my girlfriend.
+                    </p>
 
-        <p>
-            I was so happy the day we put a label on our relationship.<br>
-            I was so proud to have a beautiful girl like you<br>
-            to call my girlfriend.
-        </p>
+                    <p>
+                        Then I was told I would go to Hawassa for the next two months.<br>
+                        I was devastated —<br>
+                        I thought there was no way you would be open to trying long distance,<br>
+                        and I was scared to lose you.
+                    </p>
 
-        <p>
-            Then I was told I would go to Hawassa for the next two months.<br>
-            I was devastated —<br>
-            I thought there was no way you would be open to trying long distance,<br>
-            and I was scared to lose you.
-        </p>
+                    <p>
+                        But you surprised me once again<br>
+                        by telling me you were willing to try.
+                    </p>
 
-        <p>
-            But you surprised me once again<br>
-            by telling me you were willing to try.
-        </p>
+                    <p>
+                        On our last date before I left for Hawassa,<br>
+                        I wanted to say a proper goodbye to you<br>
+                        and finally kiss you —<br>
+                        something I had wanted to do since our first date.
+                    </p>
 
-        <p>
-            On our last date before I left for Hawassa,<br>
-            I wanted to say a proper goodbye to you<br>
-            and finally kiss you —<br>
-            something I had wanted to do since our first date.
-        </p>
+                    <p>
+                        But I was still so nervous.<br>
+                        I thought it might be too much, too fast,<br>
+                        that you would stop wanting to see me.
+                    </p>
 
-        <p>
-            But I was still so nervous.<br>
-            I thought it might be too much, too fast,<br>
-            that you would stop wanting to see me.
-        </p>
+                    <p>
+                        So I ended up not doing it…<br>
+                        and I regretted it deeply<br>
+                        because I would have to wait weeks to see you again.
+                    </p>
 
-        <p>
-            So I ended up not doing it…<br>
-            and I regretted it deeply<br>
-            because I would have to wait weeks to see you again.
-        </p>
+                    <p>
+                        When you later told me<br>
+                        that you don’t kiss guys until you get married,<br>
+                        I was so sad.
+                    </p>
 
-        <p>
-            When you later told me<br>
-            that you don’t kiss guys until you get married,<br>
-            I was so sad.
-        </p>
+                    <p>
+                        I had been thinking about kissing you since our first date.<br>
+                        I wanted to share that intimate moment with you as soon as I could.
+                    </p>
 
-        <p>
-            I had been thinking about kissing you since our first date.<br>
-            I wanted to share that intimate moment with you as soon as I could.
-        </p>
+                    <p>
+                        But I understood…<br>
+                        and I began to think how much more special it would be<br>
+                        if we waited until then.
+                    </p>
 
-        <p>
-            But I understood…<br>
-            and I began to think how much more special it would be<br>
-            if we waited until then.
-        </p>
+                    <p>
+                        Even now, every time I see you,<br>
+                        I still think about kissing you.<br>
+                        I have imagined it a thousand times<br>
+                        and every time it was exactly everything I wanted it to be.
+                    </p>
 
-        <p>
-            Even now, every time I see you,<br>
-            I still think about kissing you.<br>
-            I have imagined it a thousand times<br>
-            and every time it was exactly everything I wanted it to be.
-        </p>
+                    <p>
+                        After I went to Hawassa,<br>
+                        we started having communication problems —<br>
+                        mainly on my part.
+                    </p>
 
-        <p>
-            After I went to Hawassa,<br>
-            we started having communication problems —<br>
-            mainly on my part.
-        </p>
+                    <p>
+                        I realised I was hurting you,<br>
+                        and that started to hurt me too.
+                    </p>
 
-        <p>
-            I realised I was hurting you,<br>
-            and that started to hurt me too.
-        </p>
+                    <p>
+                        I wanted to do better.<br>
+                        I tried my best…<br>
+                        but this was not the type of person I had been before I met you.<br>
+                        It took time,<br>
+                        and I hurt you many times.
+                    </p>
 
-        <p>
-            I wanted to do better.<br>
-            I tried my best…<br>
-            but this was not the type of person I had been before I met you.<br>
-            It took time,<br>
-            and I hurt you many times.
-        </p>
+                    <p>
+                        I hated myself for putting you through all of that.<br>
+                        You deserved none of it.
+                    </p>
 
-        <p>
-            I hated myself for putting you through all of that.<br>
-            You deserved none of it.
-        </p>
+                    <p>
+                        But you still stuck by me.
+                    </p>
 
-        <p>
-            But you still stuck by me.
-        </p>
+                    <p>
+                        That was the moment I started to realise:<br>
+                        I may be in love with this girl…<br>
+                        because I had never felt this way toward anyone before.
+                    </p>
 
-        <p>
-            That was the moment I started to realise:<br>
-            I may be in love with this girl…<br>
-            because I had never felt this way toward anyone before.
-        </p>
+                    <p>
+                        The feeling only grew stronger from that point on.<br>
+                        You started to look more beautiful every time I saw you.<br>
+                        I still felt nervous every time I saw you.<br>
+                        My heart beat faster,<br>
+                        and I was so scared of doing the wrong thing<br>
+                        and ruining our relationship.
+                    </p>
 
-        <p>
-            The feeling only grew stronger from that point on.<br>
-            You started to look more beautiful every time I saw you.<br>
-            I still felt nervous every time I saw you.<br>
-            My heart beat faster,<br>
-            and I was so scared of doing the wrong thing<br>
-            and ruining our relationship.
-        </p>
+                    <p>
+                        I loved you because you are so beautiful.<br>
+                        I never get tired of looking at your gorgeous face<br>
+                        and your sexy all-around body.
+                    </p>
 
-        <p>
-            I loved you because you are so beautiful.<br>
-            I never get tired of looking at your gorgeous face<br>
-            and your sexy all-around body.
-        </p>
+                    <p>
+                        You are so loving and caring.<br>
+                        You showed me what real love feels like.<br>
+                        You are the best thing that has ever happened to me.
+                    </p>
 
-        <p>
-            You are so loving and caring.<br>
-            You showed me what real love feels like.<br>
-            You are the best thing that has ever happened to me.
-        </p>
+                    <p>
+                        I’m not very good at expressing how I feel toward someone —<br>
+                        I have been like that all my life.
+                    </p>
 
-        <p>
-            I’m not very good at expressing how I feel toward someone —<br>
-            I have been like that all my life.
-        </p>
+                    <p class="text-2xl md:text-3xl font-medium text-rose-100 mt-12">
+                        But I mean this with every part of me:<br>
+                        I love you more than you will ever know…<br>
+                        and I will love you more every single day.
+                    </p>
+                </div>
 
-        <p class="text-2xl md:text-3xl font-medium text-rose-100 mt-10">
-            But I mean this with every part of me:<br>
-            I love you more than you will ever know…<br>
-            and I will love you more every single day.
-        </p>
-
-    </div>
-
-    <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
-</div>
+                <div class="mt-16 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
 
+        <!-- Other sections remain unchanged and can grow if needed -->
         <section id="sec2" class="bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500">
             <div class="max-w-xl px-6 relative z-20 align-left">
                 <h1 class="title text-5xl md:text-6xl text-amber-50 mb-6 drop-shadow-lg">The Many Reasons I Adore You</h1>
-                <p class="text-xl md:text-2xl text-orange-100 leading-relaxed drop-shadow-md">Every single thing about you...</p>
+                <p class="text-lg md:text-xl text-orange-100 leading-relaxed drop-shadow-md">Every single thing about you...</p>
                 <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
@@ -400,7 +353,7 @@
         <section id="sec3" class="bg-gradient-to-br from-purple-500 via-violet-500 to-fuchsia-500">
             <div class="max-w-xl px-6 relative z-20 align-right">
                 <h1 class="title text-5xl md:text-6xl text-purple-50 mb-6 drop-shadow-lg">Cherished Memories</h1>
-                <p class="text-xl md:text-2xl text-fuchsia-100 leading-relaxed drop-shadow-md">Our special moments together...</p>
+                <p class="text-lg md:text-xl text-fuchsia-100 leading-relaxed drop-shadow-md">Our special moments together...</p>
                 <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
@@ -408,7 +361,7 @@
         <section id="sec4" class="bg-gradient-to-br from-teal-400 via-cyan-500 to-emerald-500">
             <div class="max-w-xl text-center px-6 relative z-20 align-center title-spacing">
                 <h1 class="title text-5xl md:text-6xl text-teal-50 mb-6 drop-shadow-lg">My Promises to You</h1>
-                <p class="text-xl md:text-2xl text-cyan-100 leading-relaxed drop-shadow-md">I promise to always...</p>
+                <p class="text-lg md:text-xl text-cyan-100 leading-relaxed drop-shadow-md">I promise to always...</p>
                 <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
@@ -422,7 +375,7 @@
                 <div id="time-together" class="mt-12 text-4xl md:text-6xl text-white font-light drop-shadow-lg">
                     Loading...
                 </div>
-                <p class="text-xl md:text-2xl text-pink-100 mt-8 leading-relaxed drop-shadow-md">
+                <p class="text-lg md:text-xl text-pink-100 mt-8 leading-relaxed drop-shadow-md">
                     Every second with you has been the greatest gift of my life.
                 </p>
             </div>
@@ -431,7 +384,7 @@
         <section id="sec6" class="bg-gradient-to-br from-rose-500 via-red-500 to-pink-600">
             <div class="max-w-xl text-center px-6 relative z-20 align-center">
                 <h1 class="title text-5xl md:text-6xl text-rose-50 mb-6 drop-shadow-lg">Together Forever</h1>
-                <p class="text-xl md:text-2xl text-pink-100 leading-relaxed drop-shadow-md">My love for you will never end...</p>
+                <p class="text-lg md:text-xl text-pink-100 leading-relaxed drop-shadow-md">My love for you will never end...</p>
                 <button onclick="showMoreLove()" class="mt-10 px-10 py-4 bg-white/20 hover:bg-white/30 text-rose-50 text-lg rounded-2xl transition backdrop-blur-sm border border-white/30">
                     Feel My Love
                 </button>
@@ -443,7 +396,6 @@
     <div id="particles" class="fixed inset-0 pointer-events-none"></div>
 
     <script>
-        // Floating particles
         const icons = ['❤️', '❤️', '❤️', '🌸', '🌸', '🌹'];
 
         function createParticle() {
@@ -476,7 +428,7 @@
 
             sections.forEach(sec => {
                 const rect = sec.getBoundingClientRect();
-                if (rect.top <= 20 && rect.bottom >= window.innerHeight - 20) {
+                if (rect.top <= 100 && rect.bottom >= window.innerHeight - 100) {
                     activeId = sec.id;
                 }
             });
@@ -491,7 +443,6 @@
             }
         }
 
-        // Together Since counter
         function updateTimeTogether() {
             const startDate = new Date('2025-11-23T00:00:00');
             const now = new Date();
@@ -512,7 +463,6 @@
         setInterval(updateTimeTogether, 1000 * 60 * 60);
         updateTimeTogether();
 
-        // Music controls
         const music = document.getElementById('bg-music');
         const toggleBtn = document.getElementById('music-toggle');
         const status = document.getElementById('music-status');
@@ -531,7 +481,6 @@
             isPlaying = !isPlaying;
         });
 
-        // Music prompt (shows only once)
         const prompt = document.getElementById('music-prompt');
         const startMusicBtn = document.getElementById('start-music-btn');
         const skipMusicBtn = document.getElementById('skip-music-btn');
@@ -554,7 +503,6 @@
             localStorage.setItem('musicPromptShown', 'true');
         });
 
-        // Mobile hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -568,7 +516,6 @@
             });
         });
 
-        // Other functionality
         function showMoreLove() {
             const msgs = [
                 "You are my everything.",
