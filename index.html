@@ -14,19 +14,19 @@
         #snap-container {
             min-height: 100vh;
             overflow-y: scroll;
-            scroll-snap-type: y proximity; /* proximity instead of mandatory → allows scrolling through long content */
+            scroll-snap-type: y proximity;
             -webkit-overflow-scrolling: touch;
         }
 
         section {
-            min-height: 100vh; /* at least full viewport, but can grow */
+            min-height: 100vh;
             scroll-snap-align: start;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding: 5rem 1rem 4rem; /* generous vertical padding */
+            padding: 5rem 1rem 4rem;
         }
 
         section::before, section::after {
@@ -60,7 +60,7 @@
             100% { transform: translateY(-160vh) rotate(1080deg); }
         }
 
-        /* Background patterns (kept as-is) */
+        /* Background patterns */
         #sec1::before { background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55) 3px, transparent 3px), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.45) 4px, transparent 4px); background-size: 100px 100px; opacity: 0.38; z-index: 1; }
         #sec2::before { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.35) 10px, transparent 10px, transparent 20px), repeating-linear-gradient(-45deg, rgba(255,255,255,0.28) 0, rgba(255,255,255,0.28) 10px, transparent 10px, transparent 20px); background-size: 80px 80px; opacity: 0.42; z-index: 1; }
         #sec3::before { background-image: repeating-linear-gradient(135deg, transparent 0, transparent 20px, rgba(255,255,255,0.22) 20px, rgba(255,255,255,0.22) 40px); background-size: 50px 50px; opacity: 0.28; z-index: 1; }
@@ -138,7 +138,6 @@
     <nav class="py-3 md:py-4">
         <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
             <h2 class="title text-xl md:text-2xl" style="color: #e11d48;">Lilu My Love</h2>
-            <!-- Desktop nav -->
             <div class="hidden md:flex gap-6 text-base font-medium">
                 <a href="#sec1" class="nav-link transition">Journey</a>
                 <a href="#sec2" class="nav-link transition">Reasons</a>
@@ -147,12 +146,10 @@
                 <a href="#sec5" class="nav-link transition">Together Since</a>
                 <a href="#sec6" class="nav-link transition">Forever</a>
             </div>
-            <!-- Mobile hamburger -->
             <button id="hamburger" class="md:hidden text-rose-600 text-3xl focus:outline-none">
                 ☰
             </button>
         </div>
-        <!-- Mobile dropdown -->
         <div id="mobile-menu" class="md:hidden">
             <a href="#sec1" class="block py-2 px-4">Journey</a>
             <a href="#sec2" class="block py-2 px-4">Reasons</a>
@@ -163,7 +160,6 @@
         </div>
     </nav>
 
-    <!-- Music player -->
     <div id="music-player" class="flex items-center gap-3">
         <button id="music-toggle" class="text-rose-50 text-2xl focus:outline-none transition-transform hover:scale-110">
             ♪
@@ -171,7 +167,6 @@
         <span id="music-status" class="text-rose-50 text-sm font-light opacity-80">Tap to play</span>
     </div>
 
-    <!-- Audio -->
     <audio id="bg-music" loop preload="none">
         <source src="https://raw.githubusercontent.com/jmaaruf/lilu.github.io/main/song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -179,108 +174,90 @@
 
     <div id="snap-container">
 
-        <!-- Journey Section – now scrollable if text is long -->
         <section id="sec1" class="bg-gradient-to-br from-rose-400 via-pink-500 to-purple-500">
             <div class="max-w-3xl px-6 relative z-20 text-center py-16">
                 <h1 class="title text-5xl md:text-6xl text-rose-50 mb-10 drop-shadow-lg">
                     How You Stole My Heart
                 </h1>
-
                 <div class="text-lg md:text-xl text-pink-100 leading-relaxed drop-shadow-md space-y-6 max-w-2xl mx-auto">
                     <p>
                         When we went out on our first date<br>
                         I didn’t have many expectations.
                     </p>
-
                     <p>
                         I had been on a few first dates before,<br>
                         but you surprised me.
                     </p>
-
                     <p>
                         I saw something in you that I couldn’t even explain.<br>
                         You were like gold in a world full of dirt,<br>
                         and I immediately thought to myself:<br>
                         <strong>“This girl is different… and I want her.”</strong>
                     </p>
-
                     <p>
                         As we kept going on more dates,<br>
                         the more I liked you.
                     </p>
-
                     <p>
                         I was so happy the day we put a label on our relationship.<br>
                         I was so proud to have a beautiful girl like you<br>
                         to call my girlfriend.
                     </p>
-
                     <p>
                         Then I was told I would go to Hawassa for the next two months.<br>
                         I was devastated —<br>
                         I thought there was no way you would be open to trying long distance,<br>
                         and I was scared to lose you.
                     </p>
-
                     <p>
                         But you surprised me once again<br>
                         by telling me you were willing to try.
                     </p>
-
                     <p>
                         On our last date before I left for Hawassa,<br>
                         I wanted to say a proper goodbye to you<br>
                         and finally kiss you —<br>
                         something I had wanted to do since our first date.
                     </p>
-
                     <p>
                         But I was still so nervous.<br>
                         I thought it might be too much, too fast,<br>
                         that you would stop wanting to see me.
                     </p>
-
                     <p>
                         So I ended up not doing it…<br>
                         and I regretted it deeply<br>
                         because I would have to wait weeks to see you again.
                     </p>
-
                     <p>
                         When you later told me<br>
                         that you don’t kiss guys until you get married,<br>
                         I was so sad.
                     </p>
-
                     <p>
                         I had been thinking about kissing you since our first date.<br>
                         I wanted to share that intimate moment with you as soon as I could.
                     </p>
-
                     <p>
                         But I understood…<br>
                         and I began to think how much more special it would be<br>
                         if we waited until then.
                     </p>
-
                     <p>
                         Even now, every time I see you,<br>
                         I still think about kissing you.<br>
                         I have imagined it a thousand times<br>
                         and every time it was exactly everything I wanted it to be.
                     </p>
-
                     <p>
                         After I went to Hawassa,<br>
                         we started having communication problems —<br>
                         mainly on my part.
                     </p>
-
                     <p>
                         I realised I was hurting you,<br>
                         and that started to hurt me too.
                     </p>
-
                     <p>
                         I wanted to do better.<br>
                         I tried my best…<br>
@@ -288,22 +265,18 @@
                         It took time,<br>
                         and I hurt you many times.
                     </p>
-
                     <p>
                         I hated myself for putting you through all of that.<br>
                         You deserved none of it.
                     </p>
-
                     <p>
                         But you still stuck by me.
                     </p>
-
                     <p>
                         That was the moment I started to realise:<br>
                         I may be in love with this girl…<br>
                         because I had never felt this way toward anyone before.
                     </p>
-
                     <p>
                         The feeling only grew stronger from that point on.<br>
                         You started to look more beautiful every time I saw you.<br>
@@ -312,41 +285,101 @@
                         and I was so scared of doing the wrong thing<br>
                         and ruining our relationship.
                     </p>
-
                     <p>
                         I loved you because you are so beautiful.<br>
                         I never get tired of looking at your gorgeous face<br>
                         and your sexy all-around body.
                     </p>
-
                     <p>
                         You are so loving and caring.<br>
                         You showed me what real love feels like.<br>
                         You are the best thing that has ever happened to me.
                     </p>
-
                     <p>
                         I’m not very good at expressing how I feel toward someone —<br>
                         I have been like that all my life.
                     </p>
-
                     <p class="text-2xl md:text-3xl font-medium text-rose-100 mt-12">
                         But I mean this with every part of me:<br>
                         I love you more than you will ever know…<br>
                         and I will love you more every single day.
                     </p>
                 </div>
-
                 <div class="mt-16 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
 
-        <!-- Other sections remain unchanged and can grow if needed -->
+        <!-- Second section with your new message -->
         <section id="sec2" class="bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500">
-            <div class="max-w-xl px-6 relative z-20 align-left">
-                <h1 class="title text-5xl md:text-6xl text-amber-50 mb-6 drop-shadow-lg">The Many Reasons I Adore You</h1>
-                <p class="text-lg md:text-xl text-orange-100 leading-relaxed drop-shadow-md">Every single thing about you...</p>
-                <div class="mt-10 text-6xl drop-shadow-lg">❤️</div>
+            <div class="max-w-3xl px-6 relative z-20 text-center py-16">
+                <h1 class="title text-5xl md:text-6xl text-amber-50 mb-10 drop-shadow-lg">
+                    The Many Reasons I Adore You
+                </h1>
+                <div class="text-lg md:text-xl text-orange-100 leading-relaxed drop-shadow-md space-y-6 max-w-2xl mx-auto">
+                    <p>
+                        Every time you tell me you love me<br>
+                        it feels like the first time.
+                    </p>
+                    <p>
+                        I could never get tired of hearing it from you.
+                    </p>
+                    <p>
+                        Before you, I had never truly loved anyone<br>
+                        and I am forever grateful to you<br>
+                        for introducing that feeling into my life.
+                    </p>
+                    <p>
+                        Having you in my life has been the greatest experience.<br>
+                        You are so kind, loving, and caring.
+                    </p>
+                    <p>
+                        You are the most beautiful girl I have ever seen<br>
+                        and I am so obsessed with seeing you —<br>
+                        even if it is just through pictures.
+                    </p>
+                    <p>
+                        I have a full gallery of your photos,<br>
+                        but I still feel they are never enough.<br>
+                        I can’t get enough of you.
+                    </p>
+                    <p>
+                        When I’m outside of Addis,<br>
+                        you are the person I miss the most.<br>
+                        Every time I come back,<br>
+                        you are the first reason I return.
+                    </p>
+                    <p>
+                        It has been almost a month since I last left,<br>
+                        and it already feels like forever.
+                    </p>
+                    <p>
+                        I miss the feeling of touching you,<br>
+                        hugging you,<br>
+                        kissing you —<br>
+                        to the point that when I finally see you again,<br>
+                        I never want to let you go.
+                    </p>
+                    <p>
+                        Even writing this now,<br>
+                        my heart is beating faster<br>
+                        and I’m so excited just imagining it.
+                    </p>
+                    <p>
+                        Talking to you while I hold your hand<br>
+                        is something I have wanted to do again<br>
+                        since the day I left Addis.
+                    </p>
+                    <p>
+                        It is so hard being away for this long,<br>
+                        and you have no idea how much I miss you.
+                    </p>
+                    <p class="text-2xl md:text-3xl font-medium text-amber-100 mt-12">
+                        I love you so much<br>
+                        and I can’t wait until I come back to Addis<br>
+                        and get to spend time with you.
+                    </p>
+                </div>
+                <div class="mt-16 text-6xl drop-shadow-lg">❤️</div>
             </div>
         </section>
 
